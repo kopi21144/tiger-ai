@@ -10,3 +10,15 @@ contract TigerAI {
     bytes32 public immutable genesisPromptHash;
     uint256 public immutable cooldownBlocks;
     uint256 public immutable maxPayloadBytes;
+
+    struct InferenceRound {
+        bytes32 promptDigest;
+        bytes32 responseRoot;
+        uint256 startedAt;
+        uint256 sealedAt;
+        bool finalized;
+        uint8 confidenceTier;
+        address proposer;
+    }
+
+    struct AgentSnapshot {
