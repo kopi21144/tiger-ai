@@ -106,3 +106,15 @@ contract TigerAI {
         bytes32 responseRoot_,
         uint8 confidenceTier_
     ) external {
+        if (msg.sender != stripeKeeper) revert TigerKeeperOnly();
+        InferenceRound storage r = _rounds[roundId_];
+        if (r.startedAt == 0) revert TigerRoundNotFound();
+        if (r.finalized) revert TigerRoundAlreadyFinalized();
+        if (confidenceTier_ > MAX_CONFIDENCE_TIER) revert TigerInvalidConfidence();
+
+        r.responseRoot = responseRoot_;
+        r.sealedAt = block.timestamp;
+        r.confidenceTier = confidenceTier_;
+        emit RoundSealed(roundId_, responseRoot_, confidenceTier_);
+    }
+
