@@ -70,3 +70,15 @@ contract TigerAI {
         if (_agents[msg.sender].suspended) revert TigerAgentSuspended();
         if (_promptToRound[promptDigest_] != 0) revert TigerDuplicatePrompt();
 
+        _roundCounter++;
+        uint256 r = _roundCounter;
+        _rounds[r] = InferenceRound({
+            promptDigest: promptDigest_,
+            responseRoot: bytes32(0),
+            startedAt: block.timestamp,
+            sealedAt: 0,
+            finalized: false,
+            confidenceTier: 0,
+            proposer: msg.sender
+        });
+        _promptToRound[promptDigest_] = r;
