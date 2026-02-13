@@ -46,3 +46,15 @@ contract TigerAI {
     error TigerCooldownActive();
     error TigerPayloadTooLarge();
     error TigerAgentSuspended();
+    error TigerDuplicatePrompt();
+    error TigerInvalidConfidence();
+    error TigerRoundNotSealed();
+
+    event RoundOpened(uint256 indexed roundId, bytes32 promptDigest, address proposer);
+    event RoundSealed(uint256 indexed roundId, bytes32 responseRoot, uint8 confidenceTier);
+    event RoundFinalized(uint256 indexed roundId);
+    event AgentRegistered(address indexed agent, bytes32 modelFingerprint);
+    event StakeDeposited(address indexed from, uint256 amount);
+
+    constructor() {
+        stripeKeeper = msg.sender;
