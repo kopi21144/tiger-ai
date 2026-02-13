@@ -118,3 +118,15 @@ contract TigerAI {
         emit RoundSealed(roundId_, responseRoot_, confidenceTier_);
     }
 
+    function finalizeRound(uint256 roundId_) external {
+        if (msg.sender != stripeKeeper) revert TigerKeeperOnly();
+        InferenceRound storage r = _rounds[roundId_];
+        if (r.startedAt == 0) revert TigerRoundNotFound();
+        if (r.finalized) revert TigerRoundAlreadyFinalized();
+        if (r.sealedAt == 0) revert TigerRoundNotSealed();
+        if (block.number < r.startedAt + cooldownBlocks) revert TigerCooldownActive();
+
+        r.finalized = true;
+        emit RoundFinalized(roundId_);
+    }
+
