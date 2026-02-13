@@ -142,3 +142,15 @@ contract TigerAI {
         uint256 sealedAt,
         bool finalized,
         uint8 confidenceTier,
+        address proposer
+    ) {
+        InferenceRound storage r = _rounds[roundId_];
+        return (
+            r.promptDigest,
+            r.responseRoot,
+            r.startedAt,
+            r.sealedAt,
+            r.finalized,
+            r.confidenceTier,
+            r.proposer
+        );
