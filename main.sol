@@ -82,3 +82,15 @@ contract TigerAI {
             proposer: msg.sender
         });
         _promptToRound[promptDigest_] = r;
+
+        if (_agents[msg.sender].lastInferenceBlock == 0) {
+            _agents[msg.sender] = AgentSnapshot({
+                modelFingerprint: modelFingerprint_,
+                lastInferenceBlock: block.number,
+                totalRounds: 1,
+                suspended: false
+            });
+            emit AgentRegistered(msg.sender, modelFingerprint_);
+        } else {
+            _agents[msg.sender].lastInferenceBlock = block.number;
+            _agents[msg.sender].totalRounds++;
