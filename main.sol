@@ -130,3 +130,15 @@ contract TigerAI {
         emit RoundFinalized(roundId_);
     }
 
+    function suspendAgent(address agent_) external {
+        if (msg.sender != stripeKeeper) revert TigerKeeperOnly();
+        _agents[agent_].suspended = true;
+    }
+
+    function getRound(uint256 roundId_) external view returns (
+        bytes32 promptDigest,
+        bytes32 responseRoot,
+        uint256 startedAt,
+        uint256 sealedAt,
+        bool finalized,
+        uint8 confidenceTier,
