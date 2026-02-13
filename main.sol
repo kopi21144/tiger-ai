@@ -94,3 +94,15 @@ contract TigerAI {
         } else {
             _agents[msg.sender].lastInferenceBlock = block.number;
             _agents[msg.sender].totalRounds++;
+        }
+
+        _totalStaked += msg.value;
+        emit RoundOpened(r, promptDigest_, msg.sender);
+        emit StakeDeposited(msg.sender, msg.value);
+    }
+
+    function sealRound(
+        uint256 roundId_,
+        bytes32 responseRoot_,
+        uint8 confidenceTier_
+    ) external {
