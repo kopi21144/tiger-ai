@@ -34,3 +34,15 @@ contract TigerAI {
     uint256 private _roundCounter;
     uint256 private _totalStaked;
 
+    bytes32 public constant TIGER_DOMAIN_SEPARATOR =
+        0xe4a7b9c2d1f0e8a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a;
+    uint256 public constant MAX_CONFIDENCE_TIER = 7;
+    uint256 public constant MIN_ROUND_DURATION = 3;
+
+    error TigerKeeperOnly();
+    error TigerRoundNotFound();
+    error TigerRoundAlreadyFinalized();
+    error TigerStakeTooLow();
+    error TigerCooldownActive();
+    error TigerPayloadTooLarge();
+    error TigerAgentSuspended();
