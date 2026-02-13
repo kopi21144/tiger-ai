@@ -58,3 +58,15 @@ contract TigerAI {
 
     constructor() {
         stripeKeeper = msg.sender;
+        inferenceEpoch = block.timestamp;
+        minStakeWei = 0.05 ether;
+        genesisPromptHash = keccak256(abi.encodePacked("tiger.v1.genesis", block.chainid, block.timestamp));
+        cooldownBlocks = 12;
+        maxPayloadBytes = 4096;
+    }
+
+    function openRound(bytes32 promptDigest_, bytes32 modelFingerprint_) external payable {
+        if (msg.value < minStakeWei) revert TigerStakeTooLow();
+        if (_agents[msg.sender].suspended) revert TigerAgentSuspended();
+        if (_promptToRound[promptDigest_] != 0) revert TigerDuplicatePrompt();
+
