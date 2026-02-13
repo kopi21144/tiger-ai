@@ -22,3 +22,15 @@ contract TigerAI {
     }
 
     struct AgentSnapshot {
+        bytes32 modelFingerprint;
+        uint256 lastInferenceBlock;
+        uint256 totalRounds;
+        bool suspended;
+    }
+
+    mapping(uint256 => InferenceRound) private _rounds;
+    mapping(address => AgentSnapshot) private _agents;
+    mapping(bytes32 => uint256) private _promptToRound;
+    uint256 private _roundCounter;
+    uint256 private _totalStaked;
+
