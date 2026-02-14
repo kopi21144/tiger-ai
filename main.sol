@@ -178,3 +178,8 @@ contract TigerAI {
     function totalStaked() external view returns (uint256) {
         return _totalStaked;
     }
+
+    function roundForPrompt(bytes32 promptDigest_) external view returns (uint256) {
+        return _promptToRound[promptDigest_];
+    }
+}
