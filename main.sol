@@ -166,3 +166,15 @@ contract TigerAI {
         return (
             a.modelFingerprint,
             a.lastInferenceBlock,
+            a.totalRounds,
+            a.suspended
+        );
+    }
+
+    function roundCount() external view returns (uint256) {
+        return _roundCounter;
+    }
+
+    function totalStaked() external view returns (uint256) {
+        return _totalStaked;
+    }
