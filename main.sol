@@ -154,3 +154,15 @@ contract TigerAI {
             r.confidenceTier,
             r.proposer
         );
+    }
+
+    function getAgent(address agent_) external view returns (
+        bytes32 modelFingerprint,
+        uint256 lastInferenceBlock,
+        uint256 totalRounds,
+        bool suspended
+    ) {
+        AgentSnapshot storage a = _agents[agent_];
+        return (
+            a.modelFingerprint,
+            a.lastInferenceBlock,
